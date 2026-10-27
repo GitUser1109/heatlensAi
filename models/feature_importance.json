@@ -1,0 +1,62 @@
+[
+  {
+    "feature": "impervious_pct",
+    "name": "Impervious Surface Coverage",
+    "unit": "%",
+    "importance_mean": 1.20884,
+    "importance_std": 0.07949,
+    "gini_importance": 0.61283,
+    "description": "Proportion of land sealed by concrete, asphalt, and rooftops.",
+    "physical_mechanism": "High thermal mass and low permeability trap shortwave and longwave radiation, preventing ground moisture evaporation."
+  },
+  {
+    "feature": "air_temp_c",
+    "name": "Synoptic Air Temperature",
+    "unit": "\u00b0C",
+    "importance_mean": 0.35103,
+    "importance_std": 0.01914,
+    "gini_importance": 0.16369,
+    "description": "Regional background meteorological air temperature measured at standard weather station height (2m).",
+    "physical_mechanism": "Establishes boundary condition for sensible heat exchange between surfaces and the atmospheric boundary layer."
+  },
+  {
+    "feature": "tree_canopy_pct",
+    "name": "Tree Canopy Coverage",
+    "unit": "%",
+    "importance_mean": 0.15686,
+    "importance_std": 0.00807,
+    "gini_importance": 0.08879,
+    "description": "Horizontal projection of tree crowns over the urban land area.",
+    "physical_mechanism": "Provides direct three-dimensional solar radiation interception, ground shading, and deep-soil water transpiration."
+  },
+  {
+    "feature": "ndvi",
+    "name": "Normalized Difference Vegetation Index (NDVI)",
+    "unit": "unitless (-0.2 to 1.0)",
+    "importance_mean": 0.15601,
+    "importance_std": 0.01318,
+    "gini_importance": 0.0982,
+    "description": "Satellite-derived proxy for photosynthetic green biomass; provides cooling via transpiration and shade.",
+    "physical_mechanism": "Vegetation absorbs solar energy for photosynthesis and converts sensible heat to latent heat via evapotranspiration."
+  },
+  {
+    "feature": "albedo",
+    "name": "Surface Albedo (Reflectance)",
+    "unit": "fraction (0.0 to 1.0)",
+    "importance_mean": 0.01886,
+    "importance_std": 0.0051,
+    "gini_importance": 0.02343,
+    "description": "Fraction of hemispherical solar radiation reflected by ground and building surfaces.",
+    "physical_mechanism": "Surfaces with higher solar reflectance absorb less heat during solar noon, lowering net heat flux."
+  },
+  {
+    "feature": "relative_humidity_pct",
+    "name": "Relative Humidity",
+    "unit": "%",
+    "importance_mean": 0.00647,
+    "importance_std": 0.00097,
+    "gini_importance": 0.01305,
+    "description": "Ratio of the partial pressure of water vapor to the equilibrium vapor pressure at the current air temperature.",
+    "physical_mechanism": "Higher atmospheric moisture suppresses the vapor pressure deficit, curtailing evaporative cooling efficacy."
+  }
+]

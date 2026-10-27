@@ -1,0 +1,23 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python cache & build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Local backups and temporary scratch files
+backup_*/
+backup_main_pre_cinematic.py
+*.bak
+HeatLens_AI_backup/
+HeatLens_AI/
+scratch/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+

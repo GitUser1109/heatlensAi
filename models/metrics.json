@@ -1,0 +1,54 @@
+{
+  "model_architecture": "RandomForestRegressor (Ensemble of 220 decision trees)",
+  "dataset_description": "Synthetic demonstration microclimate dataset; not ground/satellite observations",
+  "n_total_samples": 1800,
+  "n_train_samples": 1440,
+  "n_test_samples": 360,
+  "target_variable": "demo_heat_risk_index (0-100 relative synthetic risk index)",
+  "train_metrics": {
+    "mae": 1.994,
+    "rmse": 2.696,
+    "r2": 0.96
+  },
+  "test_metrics": {
+    "mae": 3.613,
+    "rmse": 4.775,
+    "r2": 0.871
+  },
+  "baseline_comparison": {
+    "dummy_mean": {
+      "mae": 11.311,
+      "rmse": 13.278,
+      "r2": -0.001
+    },
+    "ridge_regression": {
+      "mae": 3.818,
+      "rmse": 4.944,
+      "r2": 0.861
+    },
+    "random_forest": {
+      "mae": 3.613,
+      "rmse": 4.775,
+      "r2": 0.871
+    }
+  },
+  "overfitting_assessment": {
+    "train_r2": 0.96,
+    "test_r2": 0.871,
+    "delta_r2": 0.089,
+    "verdict": "Low overfitting risk (controlled by min_samples_leaf=3)"
+  },
+  "uncertainty_quantification": {
+    "method": "Ensemble Tree-Prediction Standard Deviation",
+    "description": "Calculates variance across all 220 individual decision trees to estimate prediction dispersion and 95% confidence intervals."
+  },
+  "scientific_disclaimer": "These metrics confirm reproduction of the controlled synthetic formula and benchmark superiority over linear models. They do NOT validate real-world temperatures or land-surface measurements.",
+  "features": [
+    "ndvi",
+    "impervious_pct",
+    "tree_canopy_pct",
+    "albedo",
+    "air_temp_c",
+    "relative_humidity_pct"
+  ]
+}

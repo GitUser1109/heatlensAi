@@ -1,0 +1,1456 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HeatLens AI — 3D Urban Microclimate Intelligence Platform</title>
+  <meta name="description" content="Cinematic, 3D-animated Environmental Intelligence Decision Support System. Machine learning microclimate modeling, defensible uncertainty quantification, and cooling scenario simulations.">
+
+  <!-- Typography: Outfit for headers, Plus Jakarta Sans for body and metrics -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet GIS CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <!-- Design System Stylesheet -->
+  <link rel="stylesheet" href="/static/styles.css?v=2.6.0">
+</head>
+<body>
+  <!-- Ambient Environmental Canvas for Atmospheric Pollen and Mist -->
+  <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- Master Full-Viewport Three.js 3D Stage (Coordinates All 6 Scenes on Scroll) -->
+  <div id="cinema-3d-stage" class="cinema-3d-stage" aria-hidden="true">
+    <canvas id="cinema-canvas" class="cinema-canvas"></canvas>
+  </div>
+
+  <div class="app-shell">
+    <!-- Collapsible Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a5 5 0 0 0-5 5v6.5a4.5 4.5 0 1 0 10 0V7a5 5 0 0 0-5-5z"></path>
+            <circle cx="12" cy="16.5" r="2.5" fill="currentColor"></circle>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <strong>HeatLens <span class="highlight">AI</span></strong>
+          <small>3D URBAN CLIMATE DSS</small>
+        </div>
+      </div>
+
+      <nav class="side-nav" aria-label="Main Navigation">
+        <div class="nav-section-label">CHOREOGRAPHED SCENES</div>
+        <a class="nav-link active" href="#hero" id="nav-hero">
+          <span class="nav-icon">🌍</span>
+          <span>1. The Living Planet</span>
+        </a>
+        <a class="nav-link" href="#scene-landscape" id="nav-landscape">
+          <span class="nav-icon">🏙️</span>
+          <span>2. Urban Landscape</span>
+        </a>
+        <a class="nav-link" href="#map-section" id="nav-map">
+          <span class="nav-icon">🔥</span>
+          <span>3. Urban Heat Problem</span>
+        </a>
+        <a class="nav-link" href="#inference-section" id="nav-inference">
+          <span class="nav-icon">🧠</span>
+          <span>4. AI Exploration</span>
+        </a>
+        <a class="nav-link" href="#simulator-section" id="nav-simulator">
+          <span class="nav-icon">🌿</span>
+          <span>5. Cooling the City</span>
+        </a>
+        <a class="nav-link" href="#satellite-section" id="nav-satellite">
+          <span class="nav-icon">🛰️</span>
+          <span>6. Satellite &amp; Audit</span>
+        </a>
+
+        <div class="nav-section-label" style="margin-top: 18px;">KNOWLEDGE &amp; AUDIT</div>
+        <button class="nav-action-btn" id="open-research-hub-btn" type="button">
+          <span class="nav-icon">📚</span>
+          <span>Research Hub</span>
+        </button>
+        <button class="nav-action-btn" id="open-interventions-catalogue-btn" type="button">
+          <span class="nav-icon">🌿</span>
+          <span>Cooling Catalogue</span>
+        </button>
+        <button class="nav-action-btn" id="open-print-report-btn" type="button">
+          <span class="nav-icon">🖨️</span>
+          <span>Print Assessment</span>
+        </button>
+        <button class="nav-action-btn" id="open-glossary-btn" type="button">
+          <span class="nav-icon">📖</span>
+          <span>Metric Definitions</span>
+        </button>
+        <button class="nav-action-btn" id="open-sources-btn" type="button">
+          <span class="nav-icon">📡</span>
+          <span>Sensor Integration</span>
+        </button>
+        <button class="nav-action-btn" id="open-export-btn" type="button">
+          <span class="nav-icon">📥</span>
+          <span>Export Audit Report</span>
+        </button>
+      </nav>
+
+      <div class="side-footer">
+        <div class="system-status-indicator">
+          <span class="pulse-dot"></span>
+          <div>
+            <b>Local Inference Engine</b>
+            <small id="model-status-text">Random Forest · 220 Trees</small>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Scrollable Content Container -->
+    <main class="main-content" id="main-content">
+      <!-- Floating Glassmorphic Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-toggle" id="sidebar-toggle" aria-label="Toggle Sidebar">☰</button>
+          <div class="topbar-titles">
+            <div class="breadcrumb">
+              <span>ENVIRONMENTAL STUDIES</span>
+              <span class="sep">/</span>
+              <span>CSE (AIML) PROTOTYPE</span>
+              <span class="sep">/</span>
+              <span class="tag-study">MUMBAI STUDY EXTENT</span>
+            </div>
+            <h1>Urban Heat Intelligence Platform</h1>
+            <p class="subtitle">Multi-scale environmental risk assessment, defensible uncertainty quantification, and cooling scenario simulations.</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="icon-btn theme-toggle" id="theme-toggle" title="Toggle Light/Dark Theme" type="button">
+            <span id="theme-icon">☀️</span>
+          </button>
+
+          <div class="status-pill green" id="api-status-pill">
+            <span class="pill-dot"></span>
+            <span id="api-status-label">FASTAPI LIVE (CACHE READY)</span>
+          </div>
+
+          <div class="avatar-badge" title="CSE AIML Project">
+            <span>HL</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Prominent Environmental Data Integrity Banner -->
+      <aside class="data-integrity-banner" id="integrity-banner" role="alert">
+        <div class="banner-icon">⚠️</div>
+        <div class="banner-content">
+          <div class="banner-title">
+            <strong>SCIENTIFIC INTEGRITY NOTICE:</strong> Synthetic Demonstration Data Only
+          </div>
+          <p>
+            All spatial coordinates, environmental profiles, and model labels bundled in this starter are 
+            <strong>synthetically generated for software &amp; machine learning architecture demonstration</strong>. 
+            The predicted score (0–100) is an illustrative relative risk index—it does <strong>NOT</strong> represent 
+            measured Celsius temperatures or validated municipal forecasts. 
+            <a href="#satellite-modal" id="banner-learn-more">View documented USGS/NASA integration pathway →</a>
+          </p>
+        </div>
+      </aside>
+
+      <!-- ===================================================================
+           SCENE 1: THE LIVING PLANET (PROMINENT 3D EARTH HERO)
+           =================================================================== -->
+      <section id="hero" class="cinematic-scene scene-hero" data-scene="1">
+        <div class="hero-stage-layout">
+          <!-- Left: Hero Text, Narrative & Floating Glass Badge Strip -->
+          <div class="hero-narrative-card">
+            <div class="hero-pill-tag">
+              <span class="sparkle">✦</span>
+              <span>SCENE 1 · THE LIVING PLANET · CSE (AIML) DSS</span>
+            </div>
+            <h2 class="hero-title">
+              Predicting Urban <span class="gradient-text">Thermal Fragility</span> with Explainable AI
+            </h2>
+            <p class="hero-description">
+              An exploratory, local-first microclimate decision support platform. Quantify surface heat vulnerability with 
+              <strong>illustrative tree-dispersion uncertainty (±1.96 σ_trees)</strong>, explore interactive spatial GIS layers, and evaluate biophysical urban cooling interventions in real-time.
+            </p>
+
+            <div class="hero-cta-group">
+              <a href="#map-section" class="btn btn-primary btn-glow" id="hero-btn-map">
+                <span>Explore Spatial Map</span>
+                <span class="btn-arrow">↓</span>
+              </a>
+              <a href="#inference-section" class="btn btn-outline" id="hero-btn-predict">
+                <span>Launch Risk Estimator</span>
+                <span class="btn-arrow">→</span>
+              </a>
+            </div>
+
+            <!-- Hero Quick Stats Strip with Floating Glassmorphism -->
+            <div class="hero-stats-strip">
+              <div class="stat-item">
+                <span class="stat-num counter" data-target="220">0</span>
+                <span class="stat-label">Decision Trees</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-num counter" data-target="1800">0</span>
+                <span class="stat-label">Dataset Samples</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-num accent-emerald">3.61</span>
+                <span class="stat-label">Test MAE (Units)</span>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-item">
+                <span class="stat-num accent-cyan">0.871</span>
+                <span class="stat-label">Test R² Score</span>
+              </div>
+            </div>
+
+            <div class="hero-focal-hud">
+              <div class="focal-point-indicator">
+                <span class="live-dot-glow"></span>
+                <span>Active 3D Earth Focus: <strong>Mumbai Study Extent [19.08°N, 72.88°E]</strong></span>
+              </div>
+              <span class="focal-hint">🖱️ Click &amp; Drag Globe to Rotate Planetary View</span>
+            </div>
+          </div>
+
+          <!-- Right: Dedicated Interactive Hero Globe Drag Catch Area -->
+          <div class="hero-interactive-catch" id="hero-globe-container" title="Drag to Rotate Earth">
+            <!-- Interactivity overlay for 3D Globe -->
+          </div>
+        </div>
+
+        <div class="scroll-cue">
+          <span>Scroll to descend into the Urban Landscape</span>
+          <div class="scroll-chevron">↓</div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SCENE 2: THE URBAN LANDSCAPE (MORPHOLOGY & DIAGNOSTICS)
+           =================================================================== -->
+      <section id="scene-landscape" class="cinematic-scene scene-landscape scroll-reveal" data-scene="2">
+        <div class="scene-header-strip">
+          <span class="eyebrow">SCENE 2 · URBAN MORPHOLOGY &amp; BENCHMARKS</span>
+          <h2>The Urban Landscape: Heterogeneous Microclimates</h2>
+          <p class="section-desc">
+            As we descend from the planetary boundary layer down into the Mumbai metropolitan domain, land surface geometry, 
+            vegetative density, and impervious building mass govern microclimatic heat storage and thermal vulnerability.
+          </p>
+        </div>
+
+        <!-- 4 Stylized Environmental Landscape Cards Floating over 3D City -->
+        <div class="landscape-cards-grid">
+          <div class="landscape-card">
+            <div class="card-icon-tag commercial">🏢 Commercial Core</div>
+            <h4>Dense High-Rise Canyon</h4>
+            <p class="morph-desc">High volumetric concrete &amp; glass mass (BKC / Lower Parel). Traps shortwave solar radiation and impedes convective wind dissipation.</p>
+            <div class="morph-metrics">
+              <span>Impervious: ~86%</span>
+              <span>Canopy: ~7%</span>
+            </div>
+          </div>
+
+          <div class="landscape-card">
+            <div class="card-icon-tag industrial">🏭 Informal Settlement</div>
+            <h4>Low-Albedo Built-Up</h4>
+            <p class="morph-desc">Corrugated metal roofing and narrow urban alleys (Dharavi). High thermal conductivity and zero permeable soil storage.</p>
+            <div class="morph-metrics">
+              <span>Impervious: ~92%</span>
+              <span>Canopy: ~4%</span>
+            </div>
+          </div>
+
+          <div class="landscape-card">
+            <div class="card-icon-tag forest">🌳 Canopy Buffer</div>
+            <h4>Protected Deciduous Forest</h4>
+            <p class="morph-desc">Dense tree canopy (Sanjay Gandhi National Park). High transpiration and shade interception create a cooler microclimate buffer.</p>
+            <div class="morph-metrics">
+              <span>Impervious: ~18%</span>
+              <span>Canopy: ~68%</span>
+            </div>
+          </div>
+
+          <div class="landscape-card">
+            <div class="card-icon-tag water">🌊 Aquatic Boundary</div>
+            <h4>Wetland &amp; Coastal Interface</h4>
+            <p class="morph-desc">Powai Lake and coastal creek transitions. High thermal inertia of open water moderates localized daytime temperature extremes.</p>
+            <div class="morph-metrics">
+              <span>Impervious: ~38%</span>
+              <span>Canopy: ~44%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 1: SYSTEM & MODEL KPI DIAGNOSTICS -->
+        <div id="overview" class="overview-subpanel">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">STATISTICAL RIGOR &amp; GENERALIZATION AUDIT</span>
+              <h3>Model Performance on Held-Out Validation Split</h3>
+            </div>
+            <div class="header-actions">
+              <button class="btn btn-outline btn-sm" id="btn-show-baselines" type="button">
+                <span>⚖️ Benchmark Baselines</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <article class="metric-card" id="card-architecture">
+              <div class="metric-head">
+                <span class="metric-label">MODEL ARCHITECTURE</span>
+                <span class="metric-icon">🌲</span>
+              </div>
+              <div class="metric-value" id="kpi-model-name">Random Forest</div>
+              <div class="metric-foot">
+                <span class="badge-subtle">220 Estimators</span>
+                <span class="text-muted">min_samples_leaf = 3</span>
+              </div>
+            </article>
+
+            <article class="metric-card" id="card-samples">
+              <div class="metric-head">
+                <span class="metric-label">DATASET SAMPLE</span>
+                <span class="metric-icon">📊</span>
+              </div>
+              <div class="metric-value counter-value" id="kpi-total-samples">1,800</div>
+              <div class="metric-foot">
+                <span class="badge-subtle" id="kpi-split-ratio">80% Train / 20% Test</span>
+                <span class="text-muted">Held-out split</span>
+              </div>
+            </article>
+
+            <article class="metric-card" id="card-mae">
+              <div class="metric-head">
+                <span class="metric-label">TEST MEAN ABS ERROR (MAE)</span>
+                <span class="metric-icon">🎯</span>
+              </div>
+              <div class="metric-value accent" id="kpi-mae">3.61</div>
+              <div class="metric-foot">
+                <span class="badge-green">Dummy: 11.31</span>
+                <span class="text-muted">68% error reduction</span>
+              </div>
+            </article>
+
+            <article class="metric-card" id="card-r2">
+              <div class="metric-head">
+                <span class="metric-label">TEST COEFFICIENT OF DET. (R²)</span>
+                <span class="metric-icon">📈</span>
+              </div>
+              <div class="metric-value accent" id="kpi-r2">0.871</div>
+              <div class="metric-foot">
+                <span class="badge-green">Overfit Delta: 0.089</span>
+                <span class="text-muted">Train R²: 0.960</span>
+              </div>
+            </article>
+          </div>
+
+          <!-- Baseline Comparison Drawer (Collapsible) -->
+          <div class="baseline-panel" id="baseline-drawer" style="display: none;">
+            <div class="baseline-panel-header">
+              <h4>Held-Out Test Set Benchmark Comparison</h4>
+              <button class="close-btn" id="close-baselines-btn" type="button">&times;</button>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Model Candidate</th>
+                    <th>Methodology</th>
+                    <th>Test MAE</th>
+                    <th>Test RMSE</th>
+                    <th>Test R²</th>
+                    <th>Scientific Assessment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Dummy Regressor</strong></td>
+                    <td>Predicts mean target label</td>
+                    <td>11.311</td>
+                    <td>13.278</td>
+                    <td>-0.001</td>
+                    <td><span class="pill-badge gray">Statistical Baseline</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Ridge Regression</strong></td>
+                    <td>L2-regularized linear model</td>
+                    <td>3.818</td>
+                    <td>4.944</td>
+                    <td>0.861</td>
+                    <td><span class="pill-badge blue">Linear Baseline</span></td>
+                  </tr>
+                  <tr class="highlight-row">
+                    <td><strong>Random Forest Regressor</strong></td>
+                    <td>Ensemble of 220 decorrelated decision trees</td>
+                    <td><strong>3.613</strong></td>
+                    <td><strong>4.775</strong></td>
+                    <td><strong>0.871</strong></td>
+                    <td><span class="pill-badge emerald">Selected Non-linear Model</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="table-caption">
+              * Note: These metrics demonstrate that the Random Forest captures non-linear microclimate feature interactions present in the synthetic equation beyond simple linear models.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SCENE 3: THE URBAN HEAT PROBLEM (SPATIAL HOTSPOTS & GIS MAP)
+           =================================================================== -->
+      <section id="map-section" class="cinematic-scene scene-heat-problem scroll-reveal" data-scene="3">
+        <div class="scene-header-strip">
+          <span class="eyebrow">SCENE 3 · SPATIAL THERMAL VULNERABILITY</span>
+          <h2>The Urban Heat Problem: Hotspots &amp; Spatial Disparities</h2>
+          <p class="section-desc">
+            Trapped daytime heat and nocturnal re-radiation create intense microclimatic temperature gradients across contiguous neighborhoods. 
+            The 3D city illuminates pulsing thermal plumes over dense concrete cores, contrasting against cooler vegetative canopies.
+          </p>
+        </div>
+
+        <!-- Panel 1: Leaflet Interactive Map -->
+        <article class="card panel-map">
+          <div class="card-header">
+            <div>
+              <span class="eyebrow">SPATIAL MICROCLIMATE &amp; CITY EXPLORER</span>
+              <h3>Urban Heat Vulnerability &amp; Place Discovery</h3>
+              <p class="text-muted">Explore microclimate profiles across Mumbai neighborhoods and major Indian metropolitan benchmarks.</p>
+            </div>
+            <div class="map-controls-group">
+              <select id="map-layer-select" class="form-select form-select-sm" title="Change Map Tile Layer">
+                <option value="osm-dark">Dark Thematic Canvas (Esri)</option>
+                <option value="satellite">High-Res Satellite (Esri World Imagery)</option>
+                <option value="osm-standard">OpenStreetMap Standard</option>
+                <option value="topo">Topographic Terrain (OpenTopoMap)</option>
+              </select>
+              <span class="badge-count" id="location-count-badge">6 Demo Locations</span>
+            </div>
+          </div>
+
+          <!-- Place Explorer Search & Filters -->
+          <div class="place-explorer-controls">
+            <div class="place-search-container">
+              <div class="place-search-input-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="place-search-input" class="place-search-input" placeholder="Search Indian city, Mumbai locality, or lat,lon (e.g. Bandra, Delhi, 19.076, 72.877)..." autocomplete="off" aria-label="Search city or locality">
+                <button type="button" class="btn-clear-search" id="btn-clear-search" title="Clear search" style="display: none;">✕</button>
+              </div>
+              <div class="search-suggestions-dropdown" id="search-suggestions-dropdown" role="listbox"></div>
+            </div>
+
+            <div class="filter-pills-row" id="filter-pills-container">
+              <button type="button" class="filter-pill active" data-scope="core" id="btn-filter-core">📍 Mumbai Core (6)</button>
+              <button type="button" class="filter-pill" data-scope="all" id="btn-filter-all">🌐 All Pan-India &amp; MMR (23)</button>
+              <button type="button" class="filter-pill" data-city="Mumbai" id="btn-filter-mmr">🏙️ MMR Metropolitan (15)</button>
+              <button type="button" class="filter-pill" data-scope="metros" id="btn-filter-metros">🇮🇳 Major Metros (8)</button>
+              <span class="filter-sep" style="color: var(--border-subtle); margin: 0 4px;">|</span>
+              <button type="button" class="filter-pill" data-cat="commercial">🏢 Commercial</button>
+              <button type="button" class="filter-pill" data-cat="residential">🏡 Residential</button>
+              <button type="button" class="filter-pill" data-cat="industrial">🏭 Industrial</button>
+              <button type="button" class="filter-pill" data-cat="vegetated">🌳 Canopy</button>
+              <button type="button" class="filter-pill" data-cat="coastal">🌊 Coastal</button>
+            </div>
+          </div>
+
+          <div class="map-wrapper">
+            <div id="map" class="leaflet-container-custom dark-tiles"></div>
+            <div id="tile-error-notice" class="tile-error-banner" style="display: none;">
+              <span>⚠️ Tile Notice: Background map tiles are currently unreachable. Model inference, markers, and calculators remain fully functional.</span>
+            </div>
+          </div>
+
+          <div class="map-footer-bar">
+            <div class="map-legend">
+              <span class="legend-item"><i class="legend-dot low"></i> Low Risk (&lt; 35)</span>
+              <span class="legend-item"><i class="legend-dot moderate"></i> Moderate Risk (35–65)</span>
+              <span class="legend-item"><i class="legend-dot high"></i> High Risk (&gt; 65)</span>
+            </div>
+            <div class="legend-uncertainty">
+              <span>● Click any marker or anywhere on the map to inspect place profile</span>
+            </div>
+          </div>
+
+          <!-- Selected Location Summary Card (Dynamic Place HUD) -->
+          <div class="selected-place-hud" id="selected-place-hud">
+            <div class="place-hud-header">
+              <div class="place-hud-title-wrap">
+                <h4 id="hud-place-name">Bandra Kurla Complex (BKC)</h4>
+                <div class="place-hud-subtitle" id="hud-place-subtitle">Mumbai, Maharashtra, India · Commercial Core</div>
+              </div>
+              <div class="place-hud-badges">
+                <span class="hud-badge green" id="hud-provenance-badge">Synthetic Micro Study Point</span>
+                <span class="hud-badge amber" id="hud-risk-badge">Risk: 64.2 / 100</span>
+              </div>
+            </div>
+
+            <div class="place-hud-stats-grid">
+              <div class="hud-stat-chip">
+                <small>Vegetation (NDVI)</small>
+                <strong id="hud-ndvi-val">0.14</strong>
+              </div>
+              <div class="hud-stat-chip">
+                <small>Impervious Surface</small>
+                <strong id="hud-impervious-val">86%</strong>
+              </div>
+              <div class="hud-stat-chip">
+                <small>Tree Canopy</small>
+                <strong id="hud-canopy-val">7%</strong>
+              </div>
+              <div class="hud-stat-chip">
+                <small>Surface Albedo</small>
+                <strong id="hud-albedo-val">0.16</strong>
+              </div>
+              <div class="hud-stat-chip">
+                <small>Ambient Air Temp</small>
+                <strong id="hud-temp-val">35.5 °C</strong>
+              </div>
+              <div class="hud-stat-chip">
+                <small>Relative Humidity</small>
+                <strong id="hud-humidity-val">62%</strong>
+              </div>
+            </div>
+
+            <div class="place-hud-applicability" id="hud-applicability-box">
+              <span id="hud-applicability-text">Direct local model fit for Mumbai study domain. Evaluated with 220-tree Random Forest regressor.</span>
+            </div>
+
+            <div class="place-hud-actions">
+              <button type="button" class="btn btn-sm btn-primary" id="btn-place-load-estimator">
+                <span>🎯 Load into Risk Estimator Baseline</span>
+              </button>
+              <button type="button" class="btn btn-sm btn-outline" id="btn-place-zoom">
+                <span>🔍 Zoom to Location</span>
+              </button>
+              <button type="button" class="btn btn-sm btn-outline" id="btn-place-clear">
+                <span>✕ Close Details</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===================================================================
+           SCENE 4: AI EXPLORATION (RISK ESTIMATOR & EXPLAINABLE AI)
+           =================================================================== -->
+      <section id="inference-section" class="cinematic-scene scene-ai-exploration scroll-reveal" data-scene="4">
+        <div class="scene-header-strip">
+          <span class="eyebrow">SCENE 4 · MACHINE LEARNING DECISION ENGINE</span>
+          <h2>AI Exploration: Risk Estimator &amp; Model Explainability</h2>
+          <p class="section-desc">
+            Interact with the Random Forest model directly. Adjust biophysical and atmospheric variables to compute 
+            predicted microclimate heat risk alongside local feature driver decompositions and tree-dispersion intervals.
+          </p>
+        </div>
+
+        <div class="content-split-grid">
+          <!-- Panel 2: Live ML Predictor Form -->
+          <article class="card panel-predictor">
+            <div class="card-header">
+              <div>
+                <span class="eyebrow">RANDOM FOREST INFERENCE</span>
+                <h3>Microclimate Risk Estimator</h3>
+                <p class="text-muted">Adjust surface and atmospheric parameters to calculate predicted risk index.</p>
+              </div>
+              <div class="preset-dropdown-wrap">
+                <select id="preset-selector" class="form-select form-select-sm" title="Load Archetype Preset">
+                  <option value="">⚡ Load Archetype...</option>
+                  <option value="commercial">Dense Commercial (BKC)</option>
+                  <option value="forest">Forest Edge (Sanjay Gandhi NP)</option>
+                  <option value="industrial">Industrial Settlement (Dharavi)</option>
+                  <option value="waterfront">Waterfront Park (Powai Lake)</option>
+                  <option value="residential">Urban Residential (Shivaji Park)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Archetype Quick Chips -->
+            <div class="archetype-chips-row" id="archetype-chips-container">
+              <span class="archetype-chips-label">QUICK ARCHETYPES:</span>
+              <button type="button" class="archetype-chip" data-preset="commercial">🏢 BKC Commercial</button>
+              <button type="button" class="archetype-chip" data-preset="forest">🌲 Sanjay Gandhi Forest</button>
+              <button type="button" class="archetype-chip" data-preset="industrial">🏭 Dharavi Industrial</button>
+              <button type="button" class="archetype-chip" data-preset="waterfront">🌊 Powai Waterfront</button>
+              <button type="button" class="archetype-chip" data-preset="residential">🏡 Shivaji Park</button>
+            </div>
+
+            <form id="prediction-form" class="predictor-form">
+              <div class="form-grid">
+                <!-- Feature 1: NDVI -->
+                <div class="form-group">
+                  <div class="label-row">
+                    <label for="slider-ndvi">Vegetation Index (NDVI)</label>
+                    <span class="unit-badge" id="val-ndvi-display">0.25</span>
+                  </div>
+                  <input type="range" id="slider-ndvi" min="-0.2" max="1.0" step="0.01" value="0.25" class="custom-range">
+                  <div class="input-bounds"><span>−0.2 (water/barren)</span><span>1.0 (dense forest)</span></div>
+                </div>
+
+                <!-- Feature 2: Impervious Surface -->
+                <div class="form-group">
+                  <div class="label-row">
+                    <label for="slider-impervious">Impervious Surface Coverage</label>
+                    <span class="unit-badge" id="val-impervious-display">70%</span>
+                  </div>
+                  <input type="range" id="slider-impervious" min="0" max="100" step="1" value="70" class="custom-range">
+                  <div class="input-bounds"><span>0% (natural)</span><span>100% (paved)</span></div>
+                </div>
+
+                <!-- Feature 3: Tree Canopy Cover -->
+                <div class="form-group">
+                  <div class="label-row">
+                    <label for="slider-canopy">Tree Canopy Coverage</label>
+                    <span class="unit-badge" id="val-canopy-display">15%</span>
+                  </div>
+                  <input type="range" id="slider-canopy" min="0" max="100" step="1" value="15" class="custom-range">
+                  <div class="input-bounds"><span>0% (treeless)</span><span>100% (full canopy)</span></div>
+                </div>
+
+                <!-- Feature 4: Surface Albedo -->
+                <div class="form-group">
+                  <div class="label-row">
+                    <label for="slider-albedo">Surface Solar Albedo</label>
+                    <span class="unit-badge" id="val-albedo-display">0.18</span>
+                  </div>
+                  <input type="range" id="slider-albedo" min="0.05" max="0.60" step="0.01" value="0.18" class="custom-range">
+                  <div class="input-bounds"><span>0.05 (asphalt)</span><span>0.60 (cool roof)</span></div>
+                </div>
+
+                <!-- Feature 5: Air Temperature -->
+                <div class="form-group">
+                  <div class="label-row">
+                    <label for="slider-airtemp">Ambient Air Temperature</label>
+                    <span class="unit-badge" id="val-airtemp-display">34.0°C</span>
+                  </div>
+                  <input type="range" id="slider-airtemp" min="20" max="45" step="0.5" value="34.0" class="custom-range">
+                  <div class="input-bounds"><span>20°C (cool)</span><span>45°C (extreme heat)</span></div>
+                </div>
+
+                <!-- Feature 6: Relative Humidity -->
+                <div class="form-group">
+                  <div class="label-row">
+                    <label for="slider-humidity">Ambient Relative Humidity</label>
+                    <span class="unit-badge" id="val-humidity-display">65%</span>
+                  </div>
+                  <input type="range" id="slider-humidity" min="20" max="95" step="1" value="65" class="custom-range">
+                  <div class="input-bounds"><span>20% (dry)</span><span>95% (humid)</span></div>
+                </div>
+              </div>
+
+              <div class="form-actions" style="display: flex; gap: 10px;">
+                <button class="btn btn-primary" type="submit" id="btn-run-prediction" style="flex: 1;">
+                  <span>⚡ Calculate Model Prediction</span>
+                </button>
+                <button class="btn btn-outline" type="button" id="btn-reset-inputs" title="Reset to default baseline">
+                  <span>↺ Reset</span>
+                </button>
+              </div>
+            </form>
+
+            <!-- Model Output Display Box -->
+            <div class="prediction-output-card" id="prediction-result-box">
+              <div id="pred-loading" class="prediction-state-msg" style="display: none;">
+                <span>⏳ Evaluating 220 decision trees across parameter feature space...</span>
+              </div>
+              <div id="pred-error" class="prediction-state-msg error" style="display: none;">
+                <span>⚠️ Inference failed. Check server connectivity.</span>
+              </div>
+
+              <div class="output-header">
+                <span class="output-eyebrow">ESTIMATED MICROCLIMATE RISK</span>
+                <span class="risk-badge" id="res-risk-tier">Moderate Relative Risk</span>
+              </div>
+
+              <div class="output-main-row">
+                <div class="score-display">
+                  <span class="big-score" id="res-score">58.4</span>
+                  <span class="score-denom">/ 100</span>
+                </div>
+                <div class="uncertainty-display">
+                  <div class="uncertainty-label">Tree-Dispersion Interval (±1.96 σ)</div>
+                  <div class="uncertainty-val" id="res-ci">[53.7 – 63.1]</div>
+                  <small class="uncertainty-note" id="res-std">± 2.4 σ (illustrative ensemble disagreement)</small>
+                </div>
+              </div>
+
+              <div class="local-drivers-wrap">
+                <div class="drivers-label">Primary Local Drivers (vs. Dataset Medians):</div>
+                <div class="drivers-pills" id="res-drivers-container">
+                  <span class="driver-pill elevate">Impervious: +18% (Elevates)</span>
+                  <span class="driver-pill elevate">Canopy: −22% (Elevates)</span>
+                  <span class="driver-pill mitigate">NDVI: +0.05 (Mitigates)</span>
+                </div>
+              </div>
+
+              <!-- Local Sensitivity Waterfall -->
+              <div class="waterfall-container" id="waterfall-chart-wrap">
+                <div class="waterfall-label">Parameter Sensitivity vs. Benchmark Median (50.0 Baseline):</div>
+                <div class="waterfall-bars" id="waterfall-bars-list">
+                  <!-- Rendered dynamically by app.js -->
+                </div>
+              </div>
+
+              <p class="output-disclaimer" id="res-interpretation">
+                Synthetic relative index for demonstrating tree ensemble prediction. Not a measured temperature in °C.
+              </p>
+
+              <!-- Session Prediction History Drawer -->
+              <details class="prediction-history-wrap" id="prediction-history-details">
+                <summary><strong>🕒 Session Prediction History (<span id="history-count">0</span> runs)</strong></summary>
+                <div class="history-list" id="prediction-history-list">
+                  <p class="text-muted" style="font-size: 0.78rem; padding: 6px 0;">No predictions logged yet. Adjust sliders and calculate a score.</p>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <!-- Panel 4: Explainable AI & Feature Importance -->
+          <article class="card panel-explain" id="explainability-section">
+            <div class="card-header">
+              <div>
+                <span class="eyebrow">MODEL TRANSPARENCY</span>
+                <h3>Feature Importance &amp; Biophysical Drivers</h3>
+                <p class="text-muted">Impact of individual environmental features on model decision boundaries.</p>
+              </div>
+              <div class="explain-toggle-group">
+                <button class="btn btn-xs active" id="btn-toggle-perm" type="button">Permutation (MDA)</button>
+                <button class="btn btn-xs" id="btn-toggle-gini" type="button">Gini Impurity (MDI)</button>
+              </div>
+            </div>
+
+            <div class="importance-chart-container" id="importance-chart-wrapper">
+              <div class="chart-loading">Loading explainability metrics...</div>
+            </div>
+
+            <div class="feature-mechanisms-accordion">
+              <details class="feature-accordion-item">
+                <summary><strong>Why does Impervious Surface dominate model importance?</strong></summary>
+                <div class="accordion-content">
+                  <p>
+                    Impervious materials (asphalt, concrete) possess low thermal inertia and high volumetric heat capacity. 
+                    They absorb shortwave radiation during peak daylight and reradiate longwave heat well into nocturnal hours, 
+                    completely sealing natural soil and preventing evaporative cooling.
+                  </p>
+                </div>
+              </details>
+              <details class="feature-accordion-item">
+                <summary><strong>Correlation vs. Causation Caution</strong></summary>
+                <div class="accordion-content">
+                  <p>
+                    Permutation importance measures how dependent the Random Forest Regressor is on a given input feature. 
+                    It is an algorithmic diagnostic—not mathematical proof of direct physical causality. In real urban ecosystems, 
+                    vegetation coverage and impervious surfaces are strongly inversely correlated.
+                  </p>
+              <details class="feature-accordion-item" style="margin-top: 10px;">
+                <summary><strong>📋 Real-World Model Retraining Readiness Checklist</strong></summary>
+                <div class="accordion-content">
+                  <ul class="readiness-checklist">
+                    <li><span class="chk-done">✔</span> <strong>Synoptic Atmospheric Boundary:</strong> NASA POWER daily 2m air temp, humidity, solar flux ingested.</li>
+                    <li><span class="chk-pending">⏳</span> <strong>Ground Truth LST Target:</strong> USGS Landsat 8/9 Collection 2 Level-2 ST (Band 10) with QA_PIXEL bitmasking required.</li>
+                    <li><span class="chk-pending">⏳</span> <strong>High-Res Vegetative Greenness:</strong> ESA Sentinel-2 Level-2A surface reflectance (10m B8/B4) cloud-masked composite.</li>
+                    <li><span class="chk-pending">⏳</span> <strong>Canopy Fraction &amp; Built Surface:</strong> ESA WorldCover 10m or LiDAR-derived 3D canopy height model.</li>
+                    <li><span class="chk-pending">⏳</span> <strong>Spatial Block Cross-Validation:</strong> Spatial K-Fold (spatial cross-validation) to prevent spatial autocorrelation leakage.</li>
+                  </ul>
+                  <p class="text-muted" style="font-size: 0.76rem; margin-top: 8px;">
+                    * Scientifically rigorous policy: We disclose that our current model is trained on 1,800 synthetic Mumbai study samples and will NOT claim real-world forecasting accuracy until the above criteria are fully satisfied.
+                  </p>
+                </div>
+              </details>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SCENE 5: COOLING THE CITY (INTERVENTION SIMULATOR)
+           =================================================================== -->
+      <section id="simulator-section" class="cinematic-scene scene-cooling-city scroll-reveal" data-scene="5">
+        <div class="scene-header-strip">
+          <span class="eyebrow">SCENE 5 · CLIMATE RESILIENCE ENGINEERING</span>
+          <h2>Cooling the City: What-If Intervention Simulator</h2>
+          <p class="section-desc">
+            Evaluate hypothetical municipal policy interventions on current microclimate baselines. 
+            Watch the 3D environment transform as trees expand, cool roofs brighten, and thermal heat plumes dissolve.
+          </p>
+        </div>
+
+        <!-- Panel 3: Cooling Intervention Simulator -->
+        <article class="card panel-simulator">
+          <div class="card-header">
+            <div>
+              <span class="eyebrow">SCENARIO LAB</span>
+              <h3>Urban Cooling Intervention Simulator</h3>
+              <p class="text-muted">Simulate what-if municipal greening and reflective surface policies on the current baseline.</p>
+            </div>
+          </div>
+
+          <div class="policy-presets-container">
+            <div class="presets-label">POLICY &amp; SPRAWL COMPARISON PRESETS:</div>
+            <div class="presets-btn-group">
+              <button type="button" class="preset-chip" id="btn-preset-canopy">🌳 +20% Tree Canopy</button>
+              <button type="button" class="preset-chip" id="btn-preset-coolroof">🏢 Cool Roofs (+0.12 Albedo)</button>
+              <button type="button" class="preset-chip" id="btn-preset-permeable">🌿 −15% Impervious Surface</button>
+              <button type="button" class="preset-chip active" id="btn-preset-comprehensive">🌟 Comprehensive Greening</button>
+              <button type="button" class="preset-chip warming" id="btn-preset-deforestation">🔥 Canopy Loss (−15% Tree)</button>
+              <button type="button" class="preset-chip warming" id="btn-preset-sprawl">☀️ Asphalt Sprawl (+20% Imp)</button>
+            </div>
+            <div style="margin-top: 10px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <button type="button" class="btn btn-xs btn-outline" id="btn-reset-simulator">↺ Reset Simulator to Zero</button>
+              <button type="button" class="btn btn-xs btn-outline" id="btn-open-interventions-catalogue">📖 Research-Backed Intervention Evidence</button>
+            </div>
+          </div>
+
+          <div class="simulator-sliders">
+            <div class="sim-slider-row">
+              <div class="sim-label-row">
+                <label for="sim-canopy-slider">Increase Tree Canopy Coverage</label>
+                <strong id="sim-canopy-val">+15%</strong>
+              </div>
+              <input type="range" id="sim-canopy-slider" min="0" max="45" step="5" value="15" class="custom-range emerald">
+            </div>
+
+            <div class="sim-slider-row">
+              <div class="sim-label-row">
+                <label for="sim-impervious-slider">Reduce Impervious Surface (Permeable Ground)</label>
+                <strong id="sim-impervious-val">−10%</strong>
+              </div>
+              <input type="range" id="sim-impervious-slider" min="0" max="35" step="5" value="10" class="custom-range emerald">
+            </div>
+
+            <div class="sim-slider-row">
+              <div class="sim-label-row">
+                <label for="sim-albedo-slider">Increase Surface Albedo (Reflective Coatings)</label>
+                <strong id="sim-albedo-val">+0.08</strong>
+              </div>
+              <input type="range" id="sim-albedo-slider" min="0.0" max="0.25" step="0.02" value="0.08" class="custom-range emerald">
+            </div>
+          </div>
+
+          <div class="sim-results-card">
+            <div class="sim-comparison-grid">
+              <div class="sim-stat-box">
+                <small>BASELINE INDEX</small>
+                <strong id="sim-base-score">58.4</strong>
+                <span class="sim-tier-tag" id="sim-base-tier">Moderate Risk</span>
+              </div>
+
+              <div class="sim-transition-arrow">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </div>
+
+              <div class="sim-stat-box highlight">
+                <small>INTERVENTION INDEX</small>
+                <strong id="sim-scen-score">45.2</strong>
+                <span class="sim-tier-tag" id="sim-scen-tier">Moderate Risk</span>
+              </div>
+
+              <div class="sim-stat-box delta">
+                <small id="sim-delta-title">NET RISK REDUCTION</small>
+                <strong id="sim-delta-score">−13.2</strong>
+                <span class="sim-pct-tag" id="sim-delta-pct">−22.6%</span>
+              </div>
+            </div>
+
+            <div class="mechanism-box">
+              <div class="mechanism-head">
+                <span class="mechanism-icon">🌿</span>
+                <strong>Biophysical Cooling Mechanism:</strong>
+              </div>
+              <p id="sim-mechanism-text">
+                Expanded tree crowns intercept incoming shortwave radiation and transfer sensible heat into latent heat via stomatal evapotranspiration, while high-albedo coatings increase reflectance.
+              </p>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===================================================================
+           SCENE 6: SATELLITE DATA & SCIENTIFIC TRANSPARENCY
+           =================================================================== -->
+      <section class="cinematic-scene scene-satellite-transparency scroll-reveal" id="satellite-section" data-scene="6">
+        <div class="scene-header-strip">
+          <span class="eyebrow">SCENE 6 · SATELLITE OBSERVATIONS &amp; SCIENTIFIC AUDIT</span>
+          <h2>Empirical Satellite Remote Sensing &amp; Transparency Pathway</h2>
+          <p class="section-desc">
+            To transition from this prototype into a peer-reviewed research platform, synthetic model variables can be linked 
+            to calibrated Earth Observation satellites and meteorological boundary feeds.
+          </p>
+        </div>
+
+        <div class="sensor-cards-grid">
+          <div class="sensor-card">
+            <div class="sensor-card-top">
+              <span class="sensor-badge">USGS / NASA · Band 10</span>
+              <span class="sensor-icon">🛰️</span>
+            </div>
+            <h4>Landsat 8 &amp; 9 Collection 2 (Level-2 ST)</h4>
+            <p class="sensor-formula">ST (K) = DN × 0.00341802 + 149.0 | ST (°C) = ST (K) − 273.15</p>
+            <p class="sensor-desc">Thermal infrared Band 10 (10.60–11.19 µm). Acquired at 100m native resolution, resampled by USGS to 30m grid. Requires <code>QA_PIXEL</code> cloud/shadow bitmasking and <code>ST_QA</code> atmospheric uncertainty screening.</p>
+            <a href="https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-temperature" target="_blank" rel="noopener noreferrer" class="sensor-doc-link">USGS Official Documentation ↗</a>
+          </div>
+
+          <div class="sensor-card">
+            <div class="sensor-card-top">
+              <span class="sensor-badge">ESA COPERNICUS · 10m</span>
+              <span class="sensor-icon">🌱</span>
+            </div>
+            <h4>Copernicus Sentinel-2 MSI (Level-2A)</h4>
+            <p class="sensor-formula">NDVI = (B8_NIR − B4_Red) / (B8_NIR + B4_Red)</p>
+            <p class="sensor-desc">Band 8 (842 nm, 10m) &amp; Band 4 (665 nm, 10m) BOA reflectance scaled by 1/10000. Quantifies 2D spectral greenness. <em>Limitation:</em> Deriving 3D tree canopy cover or NDBI (Band 11 SWIR at 20m) requires empirical calibration against LiDAR or aerial baselines.</p>
+            <a href="https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-2-msi" target="_blank" rel="noopener noreferrer" class="sensor-doc-link">ESA Copernicus User Guide ↗</a>
+          </div>
+
+          <div class="sensor-card">
+            <div class="sensor-card-top">
+              <span class="sensor-badge">NASA JPL · 70m Gridded</span>
+              <span class="sensor-icon">🌡️</span>
+            </div>
+            <h4>NASA ECOSTRESS (ISS Radiometer)</h4>
+            <p class="sensor-formula">ECO2LSTE · Temperature &amp; Emissivity Separation (TES)</p>
+            <p class="sensor-desc">Mounted on the ISS in a precessing orbit, capturing diurnal urban thermal inertia across non-sun-synchronous day/night overpasses at 70m resolution (38m × 69m native). Limited to clear-sky conditions, irregular revisit (1–5 days), and latitudes 52°N–52°S.</p>
+            <a href="https://ecostress.jpl.nasa.gov/" target="_blank" rel="noopener noreferrer" class="sensor-doc-link">NASA JPL ECOSTRESS Portal ↗</a>
+          </div>
+
+          <div class="sensor-card">
+            <div class="sensor-card-top">
+              <span class="sensor-badge">NASA LANGLEY · 0.5° × 0.625° Grid</span>
+              <span class="sensor-icon">⛅</span>
+            </div>
+            <h4>NASA POWER Gridded Reanalysis</h4>
+            <p class="sensor-formula">T2M, T2M_MAX, T2M_MIN, RH2M, ALLSKY_SFC_SW_DWN</p>
+            <p class="sensor-desc">Gridded meteorological reanalysis and satellite solar assimilation (GMAO MERRA-2 and CERES/GEWEX) providing ambient boundary conditions for Mumbai (19.0760°N, 72.8777°E). <em>Crucial distinction:</em> Regional atmospheric model estimates, not ground-station thermometers or satellite skin LST.</p>
+            <a href="https://power.larc.nasa.gov/" target="_blank" rel="noopener noreferrer" class="sensor-doc-link">NASA POWER Data Portal ↗</a>
+          </div>
+        </div>
+
+        <!-- Live NASA POWER Ingested Environmental Data Panel -->
+        <article class="card panel-nasa-observed" id="nasa-observed-panel">
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+            <div>
+              <div class="badge-status-row">
+                <span class="pill-badge emerald">🟢 GRIDDED REANALYSIS ASSIMILATION</span>
+                <span class="text-muted" style="font-size: 0.76rem;">NASA POWER (GMAO MERRA-2 / CERES Solar)</span>
+              </div>
+              <h3 style="margin-top: 8px;">Mumbai Metropolitan Meteorological Baseline (May 2024)</h3>
+              <p class="text-muted" style="font-size: 0.82rem; margin-top: 4px;">Gridded regional ambient atmospheric boundary conditions ingested from NASA Langley Research Center for Lat 19.0760°N, Lon 72.8777°E (0.5° × 0.625° grid).</p>
+            </div>
+            <button class="btn btn-outline btn-sm" id="btn-toggle-daily-table" type="button" aria-expanded="false" aria-controls="daily-observations-container">
+              <span>View 31 Daily Observations ▼</span>
+            </button>
+          </div>
+
+          <!-- Loading & Error States -->
+          <div id="obs-loading" class="obs-state-msg" style="display: none;">
+            <span>⏳ Loading NASA POWER meteorological dataset...</span>
+          </div>
+          <div id="obs-error" class="obs-state-msg error" style="display: none;">
+            <span>⚠️ Unable to load environmental data from /api/environmental-data. Run <code>python scripts/ingest_real_data.py</code>.</span>
+          </div>
+
+          <div class="observed-stats-grid" id="obs-stats-grid">
+            <div class="obs-stat-box">
+              <span class="obs-label">MONTHLY MEAN 2M AIR TEMP (T2M)</span>
+              <strong class="obs-val" id="obs-mean-temp">32.16 °C</strong>
+              <small class="obs-sub">Monthly average of 24h daily means</small>
+            </div>
+            <div class="obs-stat-box">
+              <span class="obs-label">MONTHLY MEAN DAILY MAX (T2M_MAX Mean)</span>
+              <strong class="obs-val" id="obs-mean-max-temp">39.23 °C</strong>
+              <small class="obs-sub">Average daytime maximum high</small>
+            </div>
+            <div class="obs-stat-box">
+              <span class="obs-label">PEAK DIURNAL AIR TEMP (T2M_MAX Peak)</span>
+              <strong class="obs-val heat" id="obs-max-temp">40.86 °C</strong>
+              <small class="obs-sub">Single-day peak (May 5, 2024)</small>
+            </div>
+            <div class="obs-stat-box">
+              <span class="obs-label">MEAN RELATIVE HUMIDITY (RH2M)</span>
+              <strong class="obs-val" id="obs-mean-humidity">59.9 %</strong>
+              <small class="obs-sub">Monthly mean atmospheric moisture</small>
+            </div>
+            <div class="obs-stat-box">
+              <span class="obs-label">SOLAR SHORTWAVE FLUX</span>
+              <strong class="obs-val" id="obs-mean-solar">6.83 MJ/m²</strong>
+              <small class="obs-sub">Mean all-sky surface irradiance</small>
+            </div>
+            <div class="obs-stat-box">
+              <span class="obs-label">VALIDATED OBSERVATION PERIOD</span>
+              <strong class="obs-val" id="obs-day-count">31 Days</strong>
+              <small class="obs-sub">2024-05-01 to 2024-05-31 (0 missing)</small>
+            </div>
+          </div>
+
+          <!-- Scientific Distinction Notice -->
+          <div class="data-contrast-callout">
+            <div class="contrast-item real">
+              <strong>🟢 Environmental Meteorological Data (NASA POWER):</strong> Gridded regional reanalysis and satellite model assimilation (~50 km grid cell). Establishes synoptic atmospheric boundary forcing (air temp in °C, relative humidity in %, solar flux in MJ/m²/day) for the greater Mumbai metropolitan region. It does NOT represent micro-urban ground thermometers at specific street intersections or satellite radiometric skin LST.
+            </div>
+            <div class="contrast-item synthetic">
+              <strong>🟡 Synthetic Machine-Learning Demonstration (Random Forest):</strong> Ensemble of 220 decorrelated decision trees trained on 1,800 synthetic Mumbai study samples to demonstrate non-linear multi-factor sensitivity (NDVI, tree canopy %, impervious surface %, albedo, background air temp, humidity). The predicted 0–100 score is an illustrative unitless relative risk index—it is NOT a measured Celsius temperature or a validated municipal heat forecast.
+            </div>
+          </div>
+
+          <!-- Collapsible Daily Observations Table -->
+          <div id="daily-observations-container" style="display: none; margin-top: 18px;">
+            <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">
+              <table class="table-custom">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Mean Temp (T2M, °C)</th>
+                    <th>Max Temp (T2M_MAX, °C)</th>
+                    <th>Min Temp (T2M_MIN, °C)</th>
+                    <th>Humidity (RH2M, %)</th>
+                    <th>Solar Flux (SW_DWN, MJ/m²)</th>
+                    <th>Wind Speed (WS2M, m/s)</th>
+                  </tr>
+                </thead>
+                <tbody id="daily-observations-tbody">
+                  <!-- Populated dynamically by app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </article>
+
+        <div class="transparency-summary-card">
+          <div class="transparency-content">
+            <h3>Scientific Audit &amp; Data Provenance Summary</h3>
+            <p>
+              HeatLens AI models urban microclimate vulnerability using an ensemble of 220 decorrelated decision trees. 
+              The training set (1,800 synthetic observations across Mumbai study points) demonstrates that machine learning can capture 
+              non-linear cooling thresholds (e.g. canopy shade and albedo reflectance interactions) that simple linear regression overlooks.
+            </p>
+            <div class="transparency-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button class="btn btn-primary" id="transparency-export-btn" type="button">
+                <span>📥 Download Assessment Report (JSON)</span>
+              </button>
+              <a href="/api/environmental-data/download?format=csv" download="nasa_power_mumbai_may2024.csv" class="btn btn-outline" id="btn-download-csv">
+                <span>📊 Download NASA POWER (CSV)</span>
+              </a>
+              <a href="/api/environmental-data/download?format=json" download="nasa_power_mumbai_may2024.json" class="btn btn-outline" id="btn-download-json">
+                <span>📑 Download Raw Data (JSON)</span>
+              </a>
+              <button class="btn btn-outline" id="btn-preview-printable-report" type="button">
+                <span>🖨️ View Printable Assessment</span>
+              </button>
+              <a href="#hero" class="btn btn-outline" id="btn-return-top">
+                <span>Return to Top ↑</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Page Footer -->
+      <footer class="app-footer">
+        <div class="footer-left">
+          <strong>HeatLens AI</strong> — CSE (AIML) Environmental Studies Decision Support System
+          <p class="footer-note">Developed with FastAPI, Scikit-Learn Random Forest Regressor, Three.js 3D WebGL, and Leaflet Spatial GIS.</p>
+        </div>
+        <div class="footer-right">
+          <button class="footer-link-btn" id="footer-sources-btn" type="button">Data Sources Guide</button>
+          <span class="sep">•</span>
+          <button class="footer-link-btn" id="footer-viva-btn" type="button">Viva Preparation Guide</button>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Modal 1: Environmental Metrics Glossary -->
+  <div class="modal-overlay" id="modal-glossary" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="eyebrow">ENVIRONMENTAL GLOSSARY</span>
+          <h3>Physical and Remote Sensing Definitions</h3>
+        </div>
+        <button class="modal-close-btn" id="close-glossary-modal" type="button">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="glossary-grid">
+          <div class="glossary-item">
+            <h4>NDVI (Normalized Difference Vegetation Index)</h4>
+            <span class="glossary-unit">Formula: (NIR − Red) / (NIR + Red)</span>
+            <p>A radiometric indicator of live green biomass calculated from satellite reflectance bands. Healthy chlorophyll absorbs red light and strongly reflects near-infrared (NIR). Values close to 1.0 denote dense canopy.</p>
+          </div>
+          <div class="glossary-item">
+            <h4>Impervious Surface Coverage (%)</h4>
+            <span class="glossary-unit">Range: 0% to 100%</span>
+            <p>Artificial surfaces (roads, paved parking lots, rooftops) impenetrable to water. Prevents rainwater infiltration, reduces soil latent heat flux, and maximizes heat storage.</p>
+          </div>
+          <div class="glossary-item">
+            <h4>Tree Canopy Cover (%)</h4>
+            <span class="glossary-unit">Range: 0% to 100%</span>
+            <p>The ground area covered by tree crowns when viewed from above. Provides direct solar radiation attenuation (shade) and pulls deep soil moisture into the boundary layer through transpiration.</p>
+          </div>
+          <div class="glossary-item">
+            <h4>Surface Albedo (Reflectance)</h4>
+            <span class="glossary-unit">Range: 0.0 to 1.0</span>
+            <p>The fraction of solar irradiance reflected by the surface. Standard dark asphalt has a low albedo (~0.10), whereas cool reflective coatings reach 0.50–0.70, mitigating heat buildup.</p>
+          </div>
+          <div class="glossary-item">
+            <h4>Air Temperature vs. Land Surface Temperature (LST)</h4>
+            <span class="glossary-unit">Crucial Scientific Distinction</span>
+            <p>Air temperature measures the thermal kinetic energy of the atmosphere 2 meters above ground. LST is the radiometric skin temperature of the ground surface. On sunny days, urban pavement LST can exceed air temperature by 15°C to 20°C!</p>
+          </div>
+          <div class="glossary-item">
+            <h4>Tree-Ensemble Prediction Uncertainty</h4>
+            <span class="glossary-unit">Dispersion: ± 1.96 · σ(trees)</span>
+            <p>Unlike black-box point estimates, our Random Forest quantifies uncertainty by measuring the variance across all 220 independent decision trees for each prediction.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Satellite Data Integration Pathway -->
+  <div class="modal-overlay" id="modal-sources" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="eyebrow">DATA INTEGRITY ROADMAP</span>
+          <h3>Real Satellite Data Integration Architecture</h3>
+        </div>
+        <button class="modal-close-btn" id="close-sources-modal" type="button">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-intro">
+          To transition this educational prototype into a peer-reviewed research platform, replace the synthetic demo dataset with validated remote-sensing observations:
+        </p>
+        <div class="satellite-steps-list">
+          <div class="sat-step">
+            <span class="step-badge">1</span>
+            <div>
+              <strong>USGS Landsat Collection 2 Level-2 Surface Temperature (Band 10)</strong>
+              <p>Provides 30m thermal radiometric land surface temperature. Scale formula: <code>ST_C = (DN * 0.00341802 + 149.0) - 273.15</code>. Cloud masks and fill pixels must be strictly screened.</p>
+            </div>
+          </div>
+          <div class="sat-step">
+            <span class="step-badge">2</span>
+            <div>
+              <strong>NASA ECOSTRESS (ISS Radiometer)</strong>
+              <p>High-resolution diurnal temperature cycles from the International Space Station, capturing non-sun-synchronous thermal variation.</p>
+            </div>
+          </div>
+          <div class="sat-step">
+            <span class="step-badge">3</span>
+            <div>
+              <strong>NASA POWER Daily Meteorology API</strong>
+              <p>Provides ambient background weather context (2m air temperature, relative humidity, solar irradiance) for regional calibration.</p>
+            </div>
+          </div>
+          <div class="sat-step">
+            <span class="step-badge">4</span>
+            <div>
+              <strong>Spatial Block Cross-Validation</strong>
+              <p>When training on real geospatial rasters, split train/test datasets into geographic spatial blocks or disjoint acquisition dates to eliminate spatial autocorrelation leakage.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Urban Heat & Climate Resilience Research Hub -->
+  <div class="modal-overlay" id="modal-research-hub" style="display: none;">
+    <div class="modal-window hub-modal-window">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="eyebrow">SCIENTIFIC KNOWLEDGE BASE</span>
+          <h3>Urban Heat Island Physics &amp; Environmental Intelligence</h3>
+        </div>
+        <button class="modal-close-btn" id="close-hub-modal" type="button">&times;</button>
+      </div>
+
+      <!-- Hub Tab Navigation -->
+      <div class="hub-tabs-bar" role="tablist">
+        <button type="button" class="hub-tab-btn active" data-hub-tab="physics" role="tab">🔬 1. UHI Physics &amp; Microclimates</button>
+        <button type="button" class="hub-tab-btn" data-hub-tab="remote-sensing" role="tab">🛰️ 2. Remote Sensing &amp; LST Math</button>
+        <button type="button" class="hub-tab-btn" data-hub-tab="interventions" role="tab">🌿 3. Nature-Based Solutions</button>
+        <button type="button" class="hub-tab-btn" data-hub-tab="equity" role="tab">⚖️ 4. Environmental Equity</button>
+        <button type="button" class="hub-tab-btn" data-hub-tab="references" role="tab">📚 5. Citations &amp; Formulas</button>
+      </div>
+
+      <div class="modal-body hub-content-area">
+        <!-- Tab 1: Physics -->
+        <div class="hub-tab-pane active" id="hub-tab-physics">
+          <div class="hub-section-card">
+            <h4>Surface Radiative Equilibrium &amp; Sensible Heat Flux</h4>
+            <p>
+              The urban surface energy balance is governed by: <code>Rn + Qf = H + LE + G</code>, where <code>Rn</code> is net all-wave radiation, 
+              <code>Qf</code> is anthropogenic heat emission (traffic, air-conditioning condensers, industrial equipment), <code>H</code> is turbulent sensible heat flux to the boundary layer, 
+              <code>LE</code> is latent heat flux (evaporative cooling), and <code>G</code> is conduction storage into building structures and asphalt pavement.
+            </p>
+            <p>
+              In heavily sealed commercial and industrial zones, low moisture availability suppresses <code>LE</code> to near zero. 
+              Consequently, absorbed solar radiation is partitioned almost entirely into sensible heating (<code>H</code>) and daytime thermal storage (<code>G</code>). 
+              At night, this stored heat is slowly released back to the lower atmosphere, generating the characteristic nocturnal Urban Heat Island (UHI).
+            </p>
+            <div class="hub-citation-box">
+              <strong>Key Reference:</strong> Oke, T. R. (1982). <em>The energetic basis of the urban heat island.</em> Quarterly Journal of the Royal Meteorological Society, 108(455), 1–24.
+            </div>
+          </div>
+
+          <div class="hub-section-card">
+            <h4>Radiometric Land Surface Temperature (LST) vs. 2m Ambient Air Temperature</h4>
+            <p>
+              A frequent source of public confusion is the difference between skin LST and ambient weather temperature:
+            </p>
+            <ul style="padding-left: 20px; font-size: 0.84rem; line-height: 1.6; color: var(--text-muted);">
+              <li><strong>Land Surface Temperature (LST):</strong> The radiometric radiative temperature emitted by surface facets (roofs, roads, tree crowns) measured by thermal infrared satellite sensors (e.g., Landsat Band 10). On a 34°C day in Mumbai, asphalt surface LST frequently reaches 52°C–58°C.</li>
+              <li><strong>2-Metre Air Temperature (T2M):</strong> The thermodynamic kinetic temperature of air molecules measured inside an aspirated Stevenson screen 2 metres above ground (e.g., NASA POWER reanalysis, IMD stations). Air temperature exhibits dampened spatial variance compared to the sharp micro-scale heterogeneity of LST.</li>
+            </ul>
+            <div class="hub-citation-box">
+              <strong>Key Reference:</strong> Voogt, J. A., &amp; Oke, T. R. (2003). <em>Thermal remote sensing of urban climates.</em> Remote Sensing of Environment, 86(3), 370–384.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Remote Sensing -->
+        <div class="hub-tab-pane" id="hub-tab-remote-sensing">
+          <div class="hub-section-card">
+            <h4>USGS Landsat Collection 2 Level-2 Surface Temperature (ST) Pipeline</h4>
+            <p>
+              USGS computes Level-2 ST from Thermal Infrared Sensor (TIRS) Band 10 (10.60–11.19 µm) using a single-channel atmospheric correction algorithm:
+            </p>
+            <pre style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 6px; font-size: 0.8rem; color: var(--color-mint); overflow-x: auto;">ST (Kelvin) = Digital_Number × 0.00341802 + 149.0
+ST (°Celsius) = ST (Kelvin) − 273.15</pre>
+            <p style="margin-top: 8px;">
+              <strong>Scientific Screening Requirements:</strong> Any automated ingestion must screen pixels using <code>QA_PIXEL</code> for clouds (bit 3), cloud shadow (bit 4), and cirrus (bit 2). 
+              Pixels with atmospheric transmission uncertainty &gt; 2.5K in the <code>ST_QA</code> band must be discarded.
+            </p>
+            <div class="hub-citation-box">
+              <strong>Official Guide:</strong> <a href="https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-temperature" target="_blank" rel="noopener noreferrer">USGS Landsat Collection 2 Surface Temperature Technical Document</a>
+            </div>
+          </div>
+
+          <div class="hub-section-card">
+            <h4>Copernicus Sentinel-2 Level-2A NDVI &amp; Limitation of Vegetation Indices</h4>
+            <p>
+              Normalized Difference Vegetation Index (NDVI) is computed from 10m Bottom-Of-Atmosphere (BOA) surface reflectance:
+            </p>
+            <pre style="background: rgba(0,0,0,0.4); padding: 10px; border-radius: 6px; font-size: 0.8rem; color: var(--color-mint); overflow-x: auto;">NDVI = (Band 8_NIR − Band 4_Red) / (Band 8_NIR + Band 4_Red)
+where Band 8 is 842 nm (10m) and Band 4 is 665 nm (10m)</pre>
+            <p style="margin-top: 8px;">
+              <strong>Scientific Caution:</strong> NDVI measures two-dimensional photosynthetically active biomass. It does <em>not</em> directly equate to volumetric tree canopy volume or shade. A manicured grass lawn can yield an NDVI of 0.65 while casting minimal solar shade on pedestrian sidewalks.
+            </p>
+          </div>
+        </div>
+
+        <!-- Tab 3: Nature-Based Solutions -->
+        <div class="hub-tab-pane" id="hub-tab-interventions">
+          <div class="hub-section-card">
+            <h4>Urban Tree Canopy: Stomatal Evapotranspiration &amp; Solar Interception</h4>
+            <p>
+              Mature urban shade trees cool cities through two coupled physical mechanisms:
+            </p>
+            <ul style="padding-left: 20px; font-size: 0.84rem; line-height: 1.6; color: var(--text-muted);">
+              <li><strong>Solar Radiation Attenuation (Shading):</strong> Tree canopies intercept 60%–90% of incident shortwave solar radiation, preventing underlying pavement and building walls from heating up during peak solar hours.</li>
+              <li><strong>Latent Heat Transpiration:</strong> Trees extract deep moisture from the soil and vaporize it into the atmosphere through stomatal openings. A single mature neem or banyan tree can transpire over 200–400 litres of water daily, dissipating up to 1,000 MJ of heat energy!</li>
+            </ul>
+            <div class="hub-citation-box">
+              <strong>Key Reference:</strong> Bowler, D. E., et al. (2010). <em>Urban greening to cool towns and cities: A systematic review of the empirical evidence.</em> Landscape and Urban Planning, 97(3), 147–155.
+            </div>
+          </div>
+
+          <div class="hub-section-card">
+            <h4>High-Albedo Reflective Surfaces (Cool Roofs &amp; Cool Pavements)</h4>
+            <p>
+              Standard dark roofing materials absorb 85%–90% of solar radiation. Cool roofs coated with elastomeric acrylic, polyvinylidene fluoride (PVDF), or white mineral tiles achieve solar reflectance (albedo) of 0.65–0.80 and thermal emittance &gt; 0.85. 
+              This reduces surface temperatures by 15°C–25°C and cuts cooling electricity loads by 12%–28%.
+            </p>
+            <p>
+              <em>Engineering Consideration:</em> In dense urban street canyons, ground-level cool pavements can reflect solar radiation into adjacent glazed building facades and onto pedestrians, increasing mean radiant temperature (MRT) despite lower pavement surface temperatures.
+            </p>
+            <div class="hub-citation-box">
+              <strong>Key Reference:</strong> Akbari, H., Pomerantz, M., &amp; Taha, H. (2001). <em>Cool surfaces and shade trees to reduce energy use and improve air quality in urban areas.</em> Solar Energy, 70(3), 295–310.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Environmental Equity -->
+        <div class="hub-tab-pane" id="hub-tab-equity">
+          <div class="hub-section-card">
+            <h4>Thermal Inequity &amp; Climate Vulnerability in Mumbai</h4>
+            <p>
+              Urban heat exposure is deeply stratified across socioeconomic gradients. In informal settlements and high-density tenements (such as Dharavi, Govandi, and Kurla):
+            </p>
+            <ul style="padding-left: 20px; font-size: 0.84rem; line-height: 1.6; color: var(--text-muted);">
+              <li><strong>Corrugated Metal Roofs:</strong> Tin and asbestos roofing sheets absorb intense solar radiation and conduct extreme temperatures directly into uninsulated single-room dwellings.</li>
+              <li><strong>Lack of Vegetative Canopy:</strong> Densely built wards have tree canopy coverage under 3%–5%, compared to 25%–35% in planned low-density residential enclaves (e.g., Malabar Hill, Cuffe Parade).</li>
+              <li><strong>Inadequate Ventilation:</strong> Narrow alleys restrict convective wind penetration, causing stagnant nocturnal thermal entrapment.</li>
+            </ul>
+            <div class="hub-citation-box">
+              <strong>Key Reference:</strong> Harlan, S. L., et al. (2006). <em>Neighborhood microclimates and vulnerability to heat stress.</em> Social Science &amp; Medicine, 63(11), 2847–2863.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 5: Bibliography -->
+        <div class="hub-tab-pane" id="hub-tab-references">
+          <div class="hub-section-card">
+            <h4>Mathematical Formulas Used in HeatLens AI</h4>
+            <table class="table-custom" style="font-size: 0.8rem; margin: 12px 0;">
+              <thead>
+                <tr>
+                  <th>Concept</th>
+                  <th>Formula</th>
+                  <th>Scientific Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>NDVI</strong></td>
+                  <td><code>(B8 − B4) / (B8 + B4)</code></td>
+                  <td>Radiometric spectral vegetation density (Sentinel-2 10m)</td>
+                </tr>
+                <tr>
+                  <td><strong>Landsat 8/9 ST</strong></td>
+                  <td><code>ST = DN × 0.00341802 + 149.0 − 273.15</code></td>
+                  <td>Land Surface Temperature in °C from Band 10 TIRS</td>
+                </tr>
+                <tr>
+                  <td><strong>Ensemble CI</strong></td>
+                  <td><code>ŷ ± 1.96 · σ(trees)</code></td>
+                  <td>Tree-dispersion interval across 220 decision trees</td>
+                </tr>
+                <tr>
+                  <td><strong>Net Intervention Delta</strong></td>
+                  <td><code>Δ = Score_scenario − Score_baseline</code></td>
+                  <td>Net score reduction (cooling = negative delta)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="hub-section-card">
+            <h4>Authoritative Peer-Reviewed References</h4>
+            <ol style="padding-left: 20px; font-size: 0.82rem; line-height: 1.6; color: var(--text-muted);">
+              <li>Oke, T. R. (1982). <em>The energetic basis of the urban heat island.</em> Q. J. R. Meteorol. Soc., 108(455), 1–24.</li>
+              <li>Voogt, J. A., &amp; Oke, T. R. (2003). <em>Thermal remote sensing of urban climates.</em> Remote Sens. Environ., 86(3), 370–384.</li>
+              <li>Akbari, H., Pomerantz, M., &amp; Taha, H. (2001). <em>Cool surfaces and shade trees to reduce energy use and improve air quality.</em> Solar Energy, 70(3), 295–310.</li>
+              <li>Santamouris, M. (2014). <em>Cooling the cities—a review of reflective and green roof mitigation technologies to fight heat island and improve comfort in urban environments.</em> Solar Energy, 103, 682–703.</li>
+              <li>USGS (2021). <em>Landsat Collection 2 Level 2 Science Product Guide.</em> Department of the Interior, U.S. Geological Survey.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Research-Backed Intervention Evidence Catalogue -->
+  <div class="modal-overlay" id="modal-interventions" style="display: none;">
+    <div class="modal-window" style="max-width: 900px; max-height: 85vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="eyebrow">EMPIRICAL EVIDENCE BASE</span>
+          <h3>Urban Heat Mitigation Intervention Catalogue</h3>
+        </div>
+        <button class="modal-close-btn" id="close-interventions-modal" type="button">&times;</button>
+      </div>
+      <div class="modal-body" style="overflow-y: auto;">
+        <p class="modal-intro">
+          This reference catalogue synthesizes empirical findings from peer-reviewed urban climatology literature. 
+          Values indicate real-world cooling efficacy, implementation trade-offs, and maintenance requirements.
+        </p>
+
+        <div class="table-responsive" style="margin-top: 14px;">
+          <table class="table-custom" style="font-size: 0.8rem;">
+            <thead>
+              <tr>
+                <th>Intervention</th>
+                <th>Measured Cooling Range</th>
+                <th>Primary Physical Mechanism</th>
+                <th>Key Practical Constraints</th>
+                <th>Citations</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Street Tree Canopy Expansion</strong></td>
+                <td><span class="pill-badge emerald">−1.0°C to −3.5°C LST</span></td>
+                <td>Shortwave canopy interception (60–90% shade) &amp; stomatal transpiration</td>
+                <td>Requires 3–7 years establishment; root zone space conflict with underground utilities; irrigation during dry season</td>
+                <td>Bowler et al. (2010), Santamouris (2014)</td>
+              </tr>
+              <tr>
+                <td><strong>High-Albedo Cool Roofs (Albedo &gt; 0.65)</strong></td>
+                <td><span class="pill-badge emerald">−1.2°C to −2.8°C LST</span></td>
+                <td>High solar reflectance &amp; thermal emittance (&gt; 0.85); prevents building heat absorption</td>
+                <td>Atmospheric soot and dust deposition reduces albedo by 0.10–0.15 over 2 years without periodic washing</td>
+                <td>Akbari et al. (2001), Levinson et al. (2005)</td>
+              </tr>
+              <tr>
+                <td><strong>Permeable &amp; Porous Pavements</strong></td>
+                <td><span class="pill-badge blue">−0.5°C to −1.5°C LST</span></td>
+                <td>Subsurface rainwater infiltration and evaporative latent heat release from moist substrate</td>
+                <td>Pores vulnerable to sediment and silt clogging; restricted load capacity for heavy vehicle traffic</td>
+                <td>Ferguson (2005), Qin (2015)</td>
+              </tr>
+              <tr>
+                <td><strong>Extensive Vegetated Green Roofs</strong></td>
+                <td><span class="pill-badge emerald">−0.8°C to −2.0°C LST</span></td>
+                <td>Substrate moisture evaporation, plant transpiration, and structural insulation layer</td>
+                <td>Structural roof load capacity reinforcement; high initial installation capital cost ($120–$250/m²)</td>
+                <td>Getter &amp; Rowe (2006), Santamouris (2014)</td>
+              </tr>
+              <tr>
+                <td><strong>Urban Ventilation Corridors</strong></td>
+                <td><span class="pill-badge blue">−0.5°C to −1.2°C Air Temp</span></td>
+                <td>Enhanced convective sensible heat dispersion via aligned sea-breeze channels</td>
+                <td>Requires strict zoning and building height setbacks along prevailing sea-breeze axes</td>
+                <td>Ng et al. (2012)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Printable Environmental Assessment Report Preview -->
+  <div class="modal-overlay" id="modal-print-report" style="display: none;">
+    <div class="modal-window print-modal-window" style="max-width: 950px; max-height: 90vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="eyebrow">ASSESSMENT REPORT</span>
+          <h3>HeatLens AI Urban Heat Intelligence Assessment</h3>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button type="button" class="btn btn-sm btn-primary" id="btn-trigger-print">
+            <span>🖨️ Print / Save PDF</span>
+          </button>
+          <button class="modal-close-btn" id="close-print-modal" type="button">&times;</button>
+        </div>
+      </div>
+
+      <div class="modal-body printable-report-body" id="printable-report-content" style="overflow-y: auto;">
+        <!-- Dynamically rendered printable report -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Three.js (Local offline bundle) -->
+  <script src="/static/three.min.js"></script>
+  <!-- Leaflet GIS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Main Application Script -->
+  <script src="/static/app.js?v=2.6.0"></script>
+</body>
+</html>
